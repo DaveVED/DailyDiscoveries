@@ -1,9 +1,6 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions, User, Session, DefaultSession } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-
-console.log("GITHUB_CLIENT_ID:", process.env.GITHUB_CLIENT_ID);
-console.log("GITHUB_CLIENT_SECRET:", process.env.GITHUB_CLIENT_SECRET);
-console.log("NEXTAUTH_SECRET:", process.env.NEXTAUTH_SECRET);
+import type { JWT } from "next-auth/jwt";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -14,26 +11,41 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    authorized({ request, auth }) {
-      const { pathname } = request.nextUrl
-      if (pathname === "/middleware-example") return !!auth
-      return true
-    },
-    jwt({ token, trigger, session, account }) {
-      if (trigger === "update") token.name = session.user.name
-      if (account?.provider === "keycloak") {
-        return { ...token, accessToken: account.access_token }
+    async jwt({ token, user, account, profile, isNewUser }: { token: JWT; user?: User; account?: any; profile?: any; isNewUser?: boolean }): Promise<JWT> {
+      if (user) {
+        token.id = user.id;
       }
-      return token
-    },
-    async session({ session, token }) {
-      if (token?.accessToken) {
-        session.accessToken = token.accessToken
+      if (account?.provider === "github") {
+        token.accessToken = account.access_token;
       }
-      return session
+      return token;
+    },
+    async session({ session, token }: { session: Session; token: JWT }): Promise<Session> {
+      if (token.accessToken) {
+        session.accessToken = token.accessToken;
+      }
+      session.user.id = token.id as string || "";
+      return session;
     },
   },
+  debug: process.env.NODE_ENV !== "production",
 };
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    accessToken?: string;
+    user: {
+      id: string;
+    } & DefaultSession["user"];
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id?: string;
+    accessToken?: string;
+  }
+}
