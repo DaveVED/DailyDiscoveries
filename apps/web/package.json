@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
+    "dotenv": "^16.4.5",
     "lucide-react": "^0.302.0",
     "next": "15.0.0-rc.0",
     "next-auth": "^4.24.7",

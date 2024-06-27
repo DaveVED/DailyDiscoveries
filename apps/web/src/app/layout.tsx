@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "../../styles/globals.css";
 import { Navbar } from "@repo/ui/navbar";
-import SessionWrapper from "@repo/ui/session-wrapper";
 import "@repo/ui/styles.css";
 import DailyDiscoveriesIcon from "../../public/daily_discoveries_icon.png";
 import { getServerSession } from "next-auth/next";
@@ -17,19 +16,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  console.log('Fetching session...');
   const session = await getServerSession(authOptions);
-  console.log('Session:', session); // Debugging line
 
   return (
-    <SessionWrapper>
       <html lang="en">
         <body>
-          <div>TEST {JSON.stringify(session)}</div>
           <Navbar icon={DailyDiscoveriesIcon} session={session} />
           {children}
         </body>
       </html>
-    </SessionWrapper>
   );
 }

@@ -9,10 +9,10 @@ const config = {
       keyframes: {},
       animation: {},
       width: {
-        "navbar-icon": "4.50rem",
+        "navbar-icon": "4rem",
       },
       height: {
-        "navbar-icon": "4.50rem",
+        "navbar-icon": "4rem",
       },
     },
   },
