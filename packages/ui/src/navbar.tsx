@@ -1,9 +1,9 @@
 "use client";
 import { signIn, signOut } from "next-auth/react";
-import { LogInIcon } from 'lucide-react';
-import Image, { StaticImageData } from 'next/image';
-import { Button } from './button';
-import { MouseEventHandler } from 'react';
+import { LogInIcon } from "lucide-react";
+import Image, { StaticImageData } from "next/image";
+import { Button } from "./button";
+import { MouseEventHandler } from "react";
 import { Session } from "next-auth";
 
 interface NavbarProps {
@@ -11,7 +11,11 @@ interface NavbarProps {
   session: Session | null;
 }
 
-const NavbarLoginSection = ({ onLogin }: { onLogin: MouseEventHandler<HTMLButtonElement> }) => {
+const NavbarLoginSection = ({
+  onLogin,
+}: {
+  onLogin: MouseEventHandler<HTMLButtonElement>;
+}) => {
   return (
     <div>
       <Button
@@ -23,13 +27,17 @@ const NavbarLoginSection = ({ onLogin }: { onLogin: MouseEventHandler<HTMLButton
       </Button>
     </div>
   );
-}
+};
 
-const NavbarLoggedInSection = ({ onLogout, session }: { onLogout: MouseEventHandler<HTMLButtonElement>, session: Session }) => {
+const NavbarLoggedInSection = ({
+  onLogout,
+  session,
+}: {
+  onLogout: MouseEventHandler<HTMLButtonElement>;
+  session: Session;
+}) => {
   if (!session.user) {
-    return (
-      <div>Invalid Session User...</div>
-    );
+    return <div>Invalid Session User...</div>;
   }
 
   return (
@@ -46,7 +54,7 @@ const NavbarLoggedInSection = ({ onLogout, session }: { onLogout: MouseEventHand
       </div>
     </div>
   );
-}
+};
 
 export const Navbar = ({ icon, session }: NavbarProps) => {
   const handleLogin: MouseEventHandler<HTMLButtonElement> = () => {
@@ -64,11 +72,11 @@ export const Navbar = ({ icon, session }: NavbarProps) => {
         ui-items-center
         ui-justify-between
         ui-w-full
-        ui-py-4
         ui-md:py-0
         ui-px-4
         ui-text-lg ui-text-gray-700
         ui-bg-white
+        ui-shadow-md
       "
     >
       <div>
@@ -81,11 +89,12 @@ export const Navbar = ({ icon, session }: NavbarProps) => {
         </a>
       </div>
       <div>
-      {!session ? (
-              <NavbarLoginSection onLogin={handleLogin} />
-            ) : (
-              <NavbarLoggedInSection session={session} onLogout={handleLogout} />
-            )}      </div>
+        {!session ? (
+          <NavbarLoginSection onLogin={handleLogin} />
+        ) : (
+          <NavbarLoggedInSection session={session} onLogout={handleLogout} />
+        )}{" "}
+      </div>
     </nav>
   );
 };
