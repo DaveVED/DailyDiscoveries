@@ -7,7 +7,7 @@
   ],
   "exports": {
     "./session-wrapper": "./src/session-wrapper.tsx",
-    "./navbar": "./src/navbar.tsx",
+    "./navbar": "./src/navbar/navbar.tsx",
     "./styles.css": "./dist/index.css",
     "./button": "./button.tsx"
     },
