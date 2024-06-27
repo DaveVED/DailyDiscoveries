@@ -9,7 +9,8 @@
     "./session-wrapper": "./src/session-wrapper.tsx",
     "./navbar": "./src/navbar/navbar.tsx",
     "./styles.css": "./dist/index.css",
-    "./button": "./button.tsx"
+    "./button": "./button.tsx",
+    "./user": "./src/user/profile.tsx"
     },
   "scripts": {
     "build": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
